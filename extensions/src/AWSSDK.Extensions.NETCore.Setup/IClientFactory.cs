@@ -11,6 +11,6 @@ namespace AWSSDK.Extensions.NETCore.Setup
         ///
         /// </summary>
         /// <returns></returns>
-        IAmazonService CreateServiceClient<T>(AWSCredentials credentials = null) where T : IAmazonService;
+        IAmazonService CreateServiceClient<T>() where T : IAmazonService;
     }
 }

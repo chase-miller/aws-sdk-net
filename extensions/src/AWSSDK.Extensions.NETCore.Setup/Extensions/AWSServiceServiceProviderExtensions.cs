@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static object CreateServiceClient<T>(this IServiceProvider sp, AWSOptions options = null) where T : IAmazonService
         {
             var factory = sp.GetService<IClientFactory>() ?? sp.CreateDefaultClientFactory(options);
-            return factory.CreateServiceClient<T>(sp.GetService<AWSCredentials>());
+            return factory.CreateServiceClient<T>();
         }
     }
 }

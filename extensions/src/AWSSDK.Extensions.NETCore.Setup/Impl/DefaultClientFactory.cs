@@ -28,7 +28,7 @@ namespace AWSSDK.Extensions.NETCore.Setup.Impl
     internal class DefaultClientFactory : IClientFactory
     {
         private readonly AWSOptions _options;
-        private readonly IAWSCredentialsFactory _credentialsFactory;
+        private readonly AWSCredentials _credentials;
         private readonly IClientConfigFactory _clientConfigFactory;
         private readonly ILogger _logger;
 
@@ -36,13 +36,13 @@ namespace AWSSDK.Extensions.NETCore.Setup.Impl
         /// Constructs an instance of the ClientFactory
         /// </summary>
         /// <param name="awsOptions">The AWS options used for creating service clients.</param>
-        /// <param name="credentialsFactory"></param>
+        /// <param name="credentials"></param>
         /// <param name="logger"></param>
         /// <param name="clientConfigFactory"></param>
-        internal DefaultClientFactory(AWSOptions awsOptions, IAWSCredentialsFactory credentialsFactory, ILogger logger, IClientConfigFactory clientConfigFactory)
+        internal DefaultClientFactory(AWSOptions awsOptions, AWSCredentials credentials, ILogger logger, IClientConfigFactory clientConfigFactory)
         {
             _options = awsOptions ?? throw new ArgumentNullException(nameof(awsOptions));
-            _credentialsFactory = credentialsFactory ?? throw new ArgumentNullException(nameof(credentialsFactory));
+            _credentials = credentials ?? throw new ArgumentNullException(nameof(credentials));
             _logger = logger;
             _clientConfigFactory = clientConfigFactory;
         }
@@ -51,11 +51,11 @@ namespace AWSSDK.Extensions.NETCore.Setup.Impl
         /// Creates the AWS service client that implements the service client interface.
         /// </summary>
         /// <returns>The AWS service client</returns>
-        public IAmazonService CreateServiceClient<T>(AWSCredentials credentials = null)
+        public IAmazonService CreateServiceClient<T>()
             where T : IAmazonService
         {
             PerformGlobalConfig(_logger, _options);
-            credentials = credentials ?? _credentialsFactory.Create();
+            var credentials = _credentials;
 
             if (!string.IsNullOrEmpty(_options?.SessionRoleArn))
             {
