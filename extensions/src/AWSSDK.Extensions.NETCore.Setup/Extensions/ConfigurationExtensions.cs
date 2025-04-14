@@ -13,16 +13,9 @@
  * permissions and limitations under the License.
  */
 using System;
-using System.Reflection;
-
 using Amazon;
 using Amazon.Runtime;
-using Amazon.Util;
-
 using Amazon.Extensions.NETCore.Setup;
-using System.Linq;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace Microsoft.Extensions.Configuration
 {

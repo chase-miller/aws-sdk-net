@@ -17,7 +17,7 @@ namespace AWSSDK.Extensions.NETCore.Setup
         /// </summary>
         /// <typeparam name="T">The service interface that a service client will be created for.</typeparam>
         /// <returns>The service client that implements the service interface.</returns>
-        [Obsolete("Prefer creating a service client via one of the IServiceProvider extensions.")]
+        [Obsolete("Prefer creating a service client via one of the IServiceCollection or IServiceProvider extensions.")]
         public static T CreateServiceClient<T>(this AWSOptions options, IAWSCredentialsFactory credentialsFactory = null, IClientConfigFactory clientConfigFactory = null)
             where T : class, IAmazonService
         {
