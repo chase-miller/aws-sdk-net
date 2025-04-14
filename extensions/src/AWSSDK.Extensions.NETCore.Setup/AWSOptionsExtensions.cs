@@ -1,5 +1,7 @@
+using System;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
+using AWSSDK.Extensions.NETCore.Setup.Impl;
 
 namespace AWSSDK.Extensions.NETCore.Setup
 {
@@ -15,13 +17,15 @@ namespace AWSSDK.Extensions.NETCore.Setup
         /// </summary>
         /// <typeparam name="T">The service interface that a service client will be created for.</typeparam>
         /// <returns>The service client that implements the service interface.</returns>
-        public static T CreateServiceClient<T>(this AWSOptions options, IAWSCredentialsFactory credentialsFactory = null)
+        [Obsolete("Prefer creating a service client via one of the IServiceProvider extensions.")]
+        public static T CreateServiceClient<T>(this AWSOptions options, IAWSCredentialsFactory credentialsFactory = null, IClientConfigFactory clientConfigFactory = null)
             where T : class, IAmazonService
         {
             credentialsFactory = credentialsFactory ?? new DefaultAWSCredentialsFactory(options);
-            var clientFactory = new ClientFactory<T>(options, credentialsFactory, null);
+            clientConfigFactory = clientConfigFactory ?? new DefaultClientConfigFactory();
+            var clientFactory = new DefaultClientFactory(options, credentialsFactory, null, clientConfigFactory);
 
-            return clientFactory.CreateServiceClient() as T;
+            return clientFactory.CreateServiceClient<T>() as T;
         }
     }
 }

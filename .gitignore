@@ -70,3 +70,6 @@ sdk/test/Performance/**/BenchmarkDotNet.Artifacts/*
 sdk/test/ProtocolTests/Generated/**/model
 sdk/test/ProtocolTests/Generated/**/sources
 sdk/test/ProtocolTests/Generated/**/build-info
+
+# macOS
+.DS_Store

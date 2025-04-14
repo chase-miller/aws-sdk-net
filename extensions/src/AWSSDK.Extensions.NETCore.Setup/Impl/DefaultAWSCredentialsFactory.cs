@@ -4,7 +4,7 @@ using Amazon.Runtime.CredentialManagement;
 using Amazon.Runtime.Credentials.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace AWSSDK.Extensions.NETCore.Setup
+namespace AWSSDK.Extensions.NETCore.Setup.Impl
 {
     /// <summary>
     ///

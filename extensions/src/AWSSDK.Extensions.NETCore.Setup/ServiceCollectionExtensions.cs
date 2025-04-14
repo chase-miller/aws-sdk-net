@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Amazon.Runtime;
 using Amazon.Extensions.NETCore.Setup;
 using AWSSDK.Extensions.NETCore.Setup;
+using AWSSDK.Extensions.NETCore.Setup.Impl;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -479,10 +480,11 @@ namespace Microsoft.Extensions.DependencyInjection
             var logger = sp.GetService<ILogger>();
             var awsOptions = options ?? sp.GetService<AWSOptions>() ?? new AWSOptions();
             var credentialsFactory = sp.GetService<IAWSCredentialsFactory>() ?? new DefaultAWSCredentialsFactory(awsOptions, logger);
+            var clientConfigFactory = sp.GetService<IClientConfigFactory>() ?? new DefaultClientConfigFactory();
 
-            var factory = new ClientFactory<T>(awsOptions, credentialsFactory, logger);
+            var factory = new DefaultClientFactory(awsOptions, credentialsFactory, logger, clientConfigFactory);
 
-            return factory.CreateServiceClient(sp.GetService<AWSCredentials>());
+            return factory.CreateServiceClient<T>(sp.GetService<AWSCredentials>());
         }
 
         private static IAWSCredentialsFactory CreateDefaultCredentialsFactory(this IServiceProvider sp)
